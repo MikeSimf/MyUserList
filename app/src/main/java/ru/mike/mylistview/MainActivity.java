@@ -28,23 +28,34 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MyApp";
     private static final String PREF_SETTINGS = "setting";
     private static final String JSON_NAME = "userdata";
+    private static final String IMAGE_URL = "image_url";
+    private static final String USER_FIO = "user_fio";
+    private static final String USER_BIRTH = "user_birth";
+    private static final String USER_MAIL = "user_mail";
+
     private ArrayList<UserData> userDataList;
     private UserDataAdapter adapter;
+    Gson gson;
+    FragmentManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        userDataList = new ArrayList<UserData>();
 
-        //Если данные не загружены, то сообщаем что мы их наполним:)
+        GsonBuilder builder = new GsonBuilder();
+        gson = builder.create();
+        manager = getSupportFragmentManager();
+
+        userDataList = new ArrayList<>();
+
+        //Если данные не загружены, то наполняем и сообщаем что мы их наполнили:)
         if(!loadDataFromSharedPreferences()){
             setInitialData();
             saveDataInSharedPreferences();
-            MyAlertDialog myAlertDialog = new MyAlertDialog();
-            FragmentManager manager = getSupportFragmentManager();
-            myAlertDialog.show(manager, "dialog");
+            showInfoMsg();
         }
+
         //формируем список по загруженным (заполненным) данным
         RecyclerView recyclerView = findViewById(R.id.rv);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -54,28 +65,49 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //сообщение о том, что мы наполнили данные
+    private void showInfoMsg(){
+        MyAlertDialog myAlertDialog = new MyAlertDialog();
+        myAlertDialog.show(manager, "dialog");
+    }
+
+    public void showDetailInfo(int position){
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(IMAGE_URL, userDataList.get(position).getImageUrl());
+        intent.putExtra(USER_FIO, userDataList.get(position).getFio());
+        intent.putExtra(USER_BIRTH, userDataList.get(position).getBirth());
+        intent.putExtra(USER_MAIL, userDataList.get(position).getMail());
+        startActivity(intent);
+    }
+
+    public void deleteUserData(int position){
+        MyAlertRemoveDialog myAlertRemoveDialog = new MyAlertRemoveDialog();
+        myAlertRemoveDialog.setOnPositiveClickListener((dialog, which) -> {
+            userDataList.remove(position);
+            adapter.notifyDataSetChanged();
+            saveDataInSharedPreferences();
+        });
+        myAlertRemoveDialog.show(manager, "dialog");
+    }
+
     //загружаем данные из SharedPreferences
+    //возвращаем false если данных нет
     private boolean loadDataFromSharedPreferences(){
         SharedPreferences preferences = getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE);
         String jsonUserData = preferences.getString(JSON_NAME, null);
 
         if(jsonUserData == null) return false;
 
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
         userDataList.addAll(gson.fromJson(jsonUserData, new TypeToken<ArrayList<UserData>>(){}.getType()));
-        if(userDataList.size()==0) return false;
-        return true;
+        return userDataList.size() != 0;
     }
 
     //сохраняем данные в SharedPreferences
     public void saveDataInSharedPreferences(){
         SharedPreferences preferences = getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE);
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(JSON_NAME, gson.toJson(userDataList));
-        editor.commit();
+        editor.apply();
     }
 
     //наполняем данные

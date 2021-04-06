@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,10 +19,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.ViewHolder>{
-    private static final String IMAGE_URL = "image_url";
-    private static final String USER_FIO = "user_fio";
-    private static final String USER_BIRTH = "user_birth";
-    private static final String USER_MAIL = "user_mail";
+
     private Context mContext;
     private List<UserData> userDataList;
 
@@ -31,8 +29,9 @@ public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.ViewHo
         this.userDataList = userDataList;
     }
 
+    @NonNull
     @Override
-    public UserDataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UserDataAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.list_item, parent, false);
         return new ViewHolder(view);
@@ -50,36 +49,10 @@ public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.ViewHo
         holder.mailView.setText(userData.getMail());
 
         //отображаем подробную инфу при нажатии
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetailActivity.class);
-                intent.putExtra(IMAGE_URL, userDataList.get(position).getImageUrl());
-                intent.putExtra(USER_FIO, userDataList.get(position).getFio());
-                intent.putExtra(USER_BIRTH, userDataList.get(position).getBirth());
-                intent.putExtra(USER_MAIL, userDataList.get(position).getMail());
-                mContext.startActivity(intent);
-            }
-        });
+        holder.itemView.setOnClickListener(v -> ((MainActivity) mContext).showDetailInfo(position));
+
         //удаляем при длительном нажатии
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                MainActivity activity = (MainActivity) mContext;
-                MyAlertRemoveDialog myAlertRemoveDialog = new MyAlertRemoveDialog();
-                myAlertRemoveDialog.setOnPositiveClickListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        userDataList.remove(position);
-                        notifyDataSetChanged();
-                        activity.saveDataInSharedPreferences();
-                    }
-                });
-                FragmentManager manager = activity.getSupportFragmentManager();
-                myAlertRemoveDialog.show(manager, "dialog");
-                return true;
-            };
-        });
+        holder.itemView.setOnLongClickListener(v -> true);
     }
 
     @Override
