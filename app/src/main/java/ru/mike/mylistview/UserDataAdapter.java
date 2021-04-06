@@ -52,7 +52,10 @@ public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> ((MainActivity) mContext).showDetailInfo(position));
 
         //удаляем при длительном нажатии
-        holder.itemView.setOnLongClickListener(v -> true);
+        holder.itemView.setOnLongClickListener(v -> {
+            ((MainActivity) mContext).deleteUserData(position);
+            return true;
+        });
     }
 
     @Override
