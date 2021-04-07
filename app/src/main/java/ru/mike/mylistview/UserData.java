@@ -1,8 +1,8 @@
 package ru.mike.mylistview;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class UserData {
+public class UserData implements Serializable {
     private String fio;
     private String mail;
     private String birth;

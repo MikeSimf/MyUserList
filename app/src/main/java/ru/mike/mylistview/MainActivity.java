@@ -28,10 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MyApp";
     private static final String PREF_SETTINGS = "setting";
     private static final String JSON_NAME = "userdata";
-    private static final String IMAGE_URL = "image_url";
-    private static final String USER_FIO = "user_fio";
-    private static final String USER_BIRTH = "user_birth";
-    private static final String USER_MAIL = "user_mail";
+    private static final String USER_DATA_OBJ = "userDataObj";
+    private static final String REMOVE_DIALOG_TAG = "remove_dialog";
+    private static final String ALERT_DIALOG_TAG = "alert_dialog";
 
     private ArrayList<UserData> userDataList;
     private UserDataAdapter adapter;
@@ -68,15 +67,12 @@ public class MainActivity extends AppCompatActivity {
     //сообщение о том, что мы наполнили данные
     private void showInfoMsg(){
         MyAlertDialog myAlertDialog = new MyAlertDialog();
-        myAlertDialog.show(manager, "dialog");
+        myAlertDialog.show(manager, ALERT_DIALOG_TAG);
     }
 
     public void showDetailInfo(int position){
         Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(IMAGE_URL, userDataList.get(position).getImageUrl());
-        intent.putExtra(USER_FIO, userDataList.get(position).getFio());
-        intent.putExtra(USER_BIRTH, userDataList.get(position).getBirth());
-        intent.putExtra(USER_MAIL, userDataList.get(position).getMail());
+        intent.putExtra(USER_DATA_OBJ, userDataList.get(position));
         startActivity(intent);
     }
 
@@ -87,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             saveDataInSharedPreferences();
         });
-        myAlertRemoveDialog.show(manager, "dialog");
+        myAlertRemoveDialog.show(manager, REMOVE_DIALOG_TAG);
     }
 
     //загружаем данные из SharedPreferences
