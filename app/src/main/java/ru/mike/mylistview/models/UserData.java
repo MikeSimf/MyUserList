@@ -1,8 +1,14 @@
-package ru.mike.mylistview;
+package ru.mike.mylistview.models;
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
+@Entity
 public class UserData implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
     private String fio;
     private String mail;
     private String birth;
@@ -45,5 +51,17 @@ public class UserData implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 }

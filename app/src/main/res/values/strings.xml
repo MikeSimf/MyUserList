@@ -4,9 +4,11 @@
     <string name="default_mail">почта</string>
     <string name="default_birth">дата рождения</string>
     <string name="attention_title">Внимание!</string>
-    <string name="attention_message">Данные не были загружены из SharedPreferences, возможно их и не было. Я наполню тестовыми данными и сохраню</string>
+    <string name="attention_message">Данных нет, возможно их и не было. Я наполнил тестовыми данными</string>
     <string name="remove_dialog_title">ОуОуОу! Это не учебная тревога!</string>
     <string name="remove_dialog_message">Вы уверены что хотите удалить этого пользователя?</string>
     <string name="dialog_answer_yes">YES</string>
     <string name="dialog_answer_no">NO</string>
+    <string name="db_name">MyUserDatabase</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

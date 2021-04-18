@@ -1,4 +1,4 @@
-package ru.mike.mylistview;
+package ru.mike.mylistview.activities;
 
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -8,6 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+
+import ru.mike.mylistview.R;
+import ru.mike.mylistview.models.UserData;
 
 public class DetailActivity extends AppCompatActivity {
     private static final String USER_DATA_OBJ = "userDataObj";

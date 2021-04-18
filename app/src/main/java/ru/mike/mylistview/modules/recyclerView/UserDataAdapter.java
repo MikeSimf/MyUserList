@@ -1,4 +1,4 @@
-package ru.mike.mylistview;
+package ru.mike.mylistview.modules.recyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import ru.mike.mylistview.R;
+import ru.mike.mylistview.models.UserData;
+import ru.mike.mylistview.activities.MainActivity;
+
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -24,7 +28,7 @@ public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.ViewHo
     private List<UserData> userDataList;
 
 
-    UserDataAdapter(Context context, List<UserData> userDataList) {
+    public UserDataAdapter(Context context, List<UserData> userDataList) {
         this.mContext = context;
         this.userDataList = userDataList;
     }
@@ -53,7 +57,7 @@ public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.ViewHo
 
         //удаляем при длительном нажатии
         holder.itemView.setOnLongClickListener(v -> {
-            ((MainActivity) mContext).deleteUserData(position);
+            ((MainActivity) mContext).longClick(position);
             return true;
         });
     }
