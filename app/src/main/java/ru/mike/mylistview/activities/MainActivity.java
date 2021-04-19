@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     private void generateUserInfo(String fio, String mail, String birth, String imageUrl){
         UserData userData = new UserData(fio, mail, birth, imageUrl);
 
-        generateHistoryTravel(userDataDao.insert(userData), 10);
+        generateHistoryTravel(userDataDao.insert(userData), 20);
     }
 
     //генерация случайных координат в пределах min и max

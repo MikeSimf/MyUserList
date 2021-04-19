@@ -67,8 +67,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnCameraIdleListener(clusterManager);
 
         clusterManager.addItems(markers);
-        //clusterManager.cluster();
-        clusterManager.setRenderer(new OwnIconRendered(getApplicationContext(), mMap, clusterManager));
+
+        //TODO: надо попробовать отрисовать картинки
+        //clusterManager.setRenderer(new OwnIconRendered(getApplicationContext(), mMap, clusterManager));
 
     }
 
@@ -81,7 +82,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    public class OwnIconRendered extends DefaultClusterRenderer<UserTravelHistory> {
+    /*public class OwnIconRendered extends DefaultClusterRenderer<UserTravelHistory> {
 
         public OwnIconRendered(Context context, GoogleMap map,
                                ClusterManager<UserTravelHistory> clusterManager) {
@@ -104,5 +105,5 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
-    }
+    }*/
 }
